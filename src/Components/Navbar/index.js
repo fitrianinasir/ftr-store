@@ -7,6 +7,8 @@ import {
   Fade,
   FormControl,
   IconButton,
+  ImageList,
+  ImageListItem,
   InputAdornment,
   ListItemText,
   MenuItem,
@@ -26,24 +28,74 @@ import { AppBar, Grid, makeStyles, createStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) =>
   createStyles({
     appBar: {
+      // display:'none',
       backgroundColor: "#FEFBE9",
+      // backgroundColor: "red",
       color: "#183A1D",
-      width: "100%",
-      height: "2rem",
-      lineHeight: "2rem",
+      height: "1.5rem",
+      lineHeight: "1.5rem",
+      fontSize:'11px'
     },
     heroStyle: {
-      backgroundColor: "#183A1D",
-      marginTop: "2rem",
-      height: "10rem",
-      color: "#FEFBE9",
+      [theme.breakpoints.down("md")]: {
+        width: "100vh",
+        backgroundColor: "#183A1D",
+        marginTop: "1.5rem",
+        height: "7rem",
+        color: "#FEFBE9",
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "100%",
+        backgroundColor: "#183A1D",
+        marginTop: "1.5rem",
+        height: "7rem",
+        color: "#FEFBE9",
+      },
+    },
+    inputSearchField: {
+      [theme.breakpoints.down("md")]: {
+        width: "50vh",
+        marginLeft:'5rem !important'
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "130vh",
+        marginLeft:'2rem !important'
+      },
+    },
+
+    logoStyle: {
+      [theme.breakpoints.down("md")]: {
+        left: "35%",
+        top:'7%',
+        '& .css-l086p4-MuiImageListItem-root .MuiImageListItem-img':{
+          width:"25vh"
+        }
+      },     
+      [theme.breakpoints.up("md")]: {
+        left: "20%",
+        top:'10%',
+        '& .css-l086p4-MuiImageListItem-root .MuiImageListItem-img':{
+          width:"35vh"
+        }
+      },        
+      position: "absolute",
+     
+      transform: "translate(-50%, -50%)",
     },
     cartStyle: {
-      width: "20rem",
-      position: "absolute",
-      top: "41%",
-      left: "75%",
-      transform: "translate(-50%, -50%)",
+      [theme.breakpoints.down("md")]: {
+        width: "20rem",
+        position: "absolute",
+        top: "26%",
+        left: "110%",
+        transform: "translate(0%, -50%)",
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "20rem",
+        top: "33%",
+        left: "75%",
+        transform: "translate(-50%, -50%)",
+      },
     },
     item: {
       "& span, & p": {
@@ -52,12 +104,6 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-
-const logoStyle = {
-  position: "absolute",
-  left: "8%",
-  transform: "translate(-50%, -50%)",
-};
 
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -119,15 +165,18 @@ function Navbar(props) {
         className={classes.heroStyle}
       >
         <Grid item xs={2}>
-          <img src={logo} alt="logo" style={logoStyle} width="200" />
+          <ImageList className={classes.logoStyle} variant="quilted">
+            <ImageListItem>
+              <img src={logo} alt="logo" />
+            </ImageListItem>
+          </ImageList>
         </Grid>
         <Grid item xs={8}>
-          <FormControl>
+          <FormControl className={classes.inputSearchField}>
             <CssTextField
               id="search-input"
               variant="standard"
-              sx={{ width: "52rem" }}
-              placeholder="Find in Everies"
+              placeholder="Find in Everies"              
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -146,10 +195,8 @@ function Navbar(props) {
             onMouseOver={handleCartOpen}
             onMouseLeave={handleCartClose}
           >
-            <IconButton>
-              <ShoppingCart
-                sx={{ color: "#FEFBE9" }}
-              />
+            <IconButton onClick={handleCartOpen}>
+              <ShoppingCart sx={{ color: "#FEFBE9" }}  />
             </IconButton>
             <Paper
               sx={{ display: isCartOpen ? "inline" : "none" }}
